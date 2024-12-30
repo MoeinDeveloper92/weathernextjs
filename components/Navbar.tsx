@@ -1,6 +1,7 @@
 import React from 'react';
 import { MdWbSunny, MdMyLocation, MdOutlineLocationOn } from 'react-icons/md';
 import SearchBox from './SearchBox';
+import Link from 'next/link';
 type Props = {};
 
 function Navbar({}: Props) {
@@ -8,7 +9,9 @@ function Navbar({}: Props) {
     <nav className="sticky top-0 left-0 z-50 bg-white">
       <div className="h-[80px] w-full flex justify-between items-center max-w-7xl px-3 mx-auto">
         <div className="flex items-center justify-center gap-2 ">
-          <h2 className="text-gray-500 text-3xl">Weather</h2>
+          <Link href={'/'} className="text-gray-500 text-3xl">
+            Weather
+          </Link>
           <MdWbSunny className="text-3xl self-center mt-2 text-yellow-200" />
         </div>
         {/* Righjt side */}

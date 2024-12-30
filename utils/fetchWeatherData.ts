@@ -7,7 +7,7 @@ export const fetchWeatherData = async (): Promise<
   WeatherForecastResponse | undefined
 > => {
   try {
-    const res = await fetch(url + `?q=Tehran,ir&appid=${API_KEY}&cnt=2`);
+    const res = await fetch(url + `?q=Berlin&appid=${API_KEY}&cnt=20`);
 
     if (res.status == 200) {
       const data: WeatherForecastResponse = await res.json();

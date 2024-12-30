@@ -14,7 +14,7 @@ function SearchBox(props: Props) {
     <form
       onSubmit={props.onSubmit}
       className={cn(
-        'relative flex items-center justify-center h-10',
+        'relative flex items-center justify-center h-10 max-sm:h-8',
         props.className
       )}
     >
@@ -23,7 +23,7 @@ function SearchBox(props: Props) {
         type="text"
         onChange={props.onChange}
         placeholder="Search location..."
-        className="px-4 py-2 w-[230px] border border-gray-300 rounded-l-md focus:outline-none focus:border-blue-500 h-full"
+        className="px-4 py-2 w-[230px] max-sm:w-[150px] border border-gray-300 rounded-l-md focus:outline-none focus:border-blue-500 h-full"
       />
       <button
         type="submit"

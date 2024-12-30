@@ -7,7 +7,7 @@ type Props = {};
 function Navbar({}: Props) {
   return (
     <nav className="sticky top-0 left-0 z-50 bg-white">
-      <div className="h-[80px] w-full flex justify-between items-center max-w-7xl px-3 mx-auto">
+      <div className="h-[80px] w-full max-sm:pt-2 max-sm:space-y-3  flex max-sm:flex-col  justify-between items-center max-w-7xl px-3 mx-auto">
         <div className="flex items-center justify-center gap-2 ">
           <Link href={'/'} className="text-gray-500 text-3xl">
             Weather

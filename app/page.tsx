@@ -2,9 +2,17 @@ import React from 'react';
 import Navbar from '@/components/Navbar';
 import { fetchWeatherData } from '@/utils/fetchWeatherData';
 import parseISO from 'date-fns/parseISO';
-import { format } from 'date-fns';
+import { format, fromUnixTime } from 'date-fns';
 import Container from '@/components/Container';
-import { convertCelvinToCelcius } from '@/utils/temeratureConversion';
+import {
+  convertCelvinToCelcius,
+  getDayOrNightIcon,
+} from '@/utils/temeratureConversion';
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
+import WeatherIcon from '@/components/WeatherIcon';
+import WeatherDetails from '@/components/WeatherDetails';
+import { meterToKilometer } from '@/utils/meterToKilometer';
+import { convertWindSpeed } from '@/utils/convertWindSpeed';
 const page = async () => {
   const data = await fetchWeatherData();
   const firstData = data?.list[0];
@@ -14,22 +22,22 @@ const page = async () => {
       <Navbar />
       <main className="px-3 max-w-7xl mx-auto flex flex-col gap-9 w-full pb-10 pt-4">
         {/* Today Data */}
-        <section className="space-y-5">
+        <section className="space-y-5 w-full">
           <div className="space-y-4">
             <h2 className="flex gap-1 text-2xl items-end">
-              <p className="text-xl">
+              <p className="text-xl font-bold">
                 {format(parseISO(firstData?.dt_txt ?? ''), 'EEEE')}
               </p>
-              <p className="text-lg">
+              <p className="text-lg font-semibold">
                 ({format(parseISO(firstData?.dt_txt ?? ''), 'dd.MM.yyyy')})
               </p>
             </h2>
-            <Container className="gap-10 px-6 items-center">
+            <Container className="px-6 items-center">
               <div className="flex flex-col px-4">
-                <span className="text-5xl">
+                <span className="text-5xl max-sm:text-3xl text-center">
                   {convertCelvinToCelcius(firstData?.main.temp ?? 296.37)}°
                 </span>
-                <p className="text-xs space-x-1 whitespace-nowrap">
+                <p className="text-xs space-x-1 whitespace-nowrap font-semibold">
                   <span>Feels Like </span>
                   <span>
                     {convertCelvinToCelcius(firstData?.main.feels_like ?? 0)}°
@@ -45,24 +53,73 @@ const page = async () => {
                 </p>
               </div>
               {/* Items and weather icons */}
-              <div className="flex gap-10 sm:gap-16 overflow-x-auto w-full justify-between">
-                {data?.list.map((item, i) => (
-                  <div
-                    key={i}
-                    className="flex flex-col justify-between items-center gap-2 text-xs"
-                  >
-                    <p className=" whitespace-nowrap">
-                      {format(parseISO(item.dt_txt), 'h:mm a')}
-                    </p>
-                    <p>{convertCelvinToCelcius(item.main.temp ?? 0)}°</p>
-                  </div>
-                ))}
-              </div>
+              <ScrollArea className="w-full">
+                <div className="flex ">
+                  {data?.list.map((item, i) => (
+                    <div
+                      key={i}
+                      className="flex flex-col pb-4 justify-between items-center gap-2 text-xs"
+                    >
+                      <p className=" whitespace-nowrap">
+                        {format(parseISO(item.dt_txt), 'h:mm a')}
+                      </p>
+                      <WeatherIcon
+                        iconname={getDayOrNightIcon(
+                          item.weather[0].icon,
+                          item.dt_txt
+                        )}
+                      />
+                      <p className="text-lg font-semibold">
+                        {convertCelvinToCelcius(item.main.temp ?? 0)}°
+                      </p>
+                    </div>
+                  ))}
+                </div>
+                <ScrollBar orientation="horizontal" color="red" />
+              </ScrollArea>
+            </Container>
+          </div>
+          <div className="flex">
+            {/* LEft */}
+            <Container className=" justify-center flex-col flex px-4 items-center">
+              <p className=" whitespace-nowrap capitalize  font-semibold">
+                {firstData?.weather[0].description}
+              </p>
+              <WeatherIcon
+                iconname={getDayOrNightIcon(
+                  firstData?.weather[0].icon ?? '',
+                  firstData?.dt_txt ?? ''
+                )}
+              />
+            </Container>
+            {/* RIGHT */}
+            <Container className="bg-yellow-300/80  px-6  ">
+              <ScrollArea>
+                <div className=" flex justify-between gap-4 items-center  px-6 ">
+                  <WeatherDetails
+                    airPressure={`${firstData?.main.pressure} hpa`}
+                    visablity={meterToKilometer(firstData?.visibility ?? 10000)}
+                    humidity={`${firstData?.main.humidity}%`}
+                    sunrise={format(
+                      fromUnixTime(data?.city.sunrise ?? 123123),
+                      'H:mm'
+                    )}
+                    sunset={format(
+                      fromUnixTime(data?.city.sunset ?? 123123),
+                      'H:mm'
+                    )}
+                    windSpeed={convertWindSpeed(firstData?.wind.speed ?? 1.64)}
+                  />
+                  <ScrollBar orientation="horizontal" />
+                </div>
+              </ScrollArea>
             </Container>
           </div>
         </section>
         {/* Forecasted Data */}
-        <section></section>
+        <section className="flex w-full flex-col gap-4">
+          <p className="text-2xl">ForeCast (7 days)</p>
+        </section>
       </main>
     </div>
   );

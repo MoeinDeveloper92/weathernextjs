@@ -13,6 +13,7 @@ import WeatherIcon from '@/components/WeatherIcon';
 import WeatherDetails from '@/components/WeatherDetails';
 import { meterToKilometer } from '@/utils/meterToKilometer';
 import { convertWindSpeed } from '@/utils/convertWindSpeed';
+
 const page = async () => {
   const data = await fetchWeatherData();
   const firstData = data?.list[0];
@@ -53,8 +54,8 @@ const page = async () => {
                 </p>
               </div>
               {/* Items and weather icons */}
-              <ScrollArea className="w-full">
-                <div className="flex ">
+              <ScrollArea>
+                <div className="flex gap-2 ">
                   {data?.list.map((item, i) => (
                     <div
                       key={i}
@@ -75,13 +76,14 @@ const page = async () => {
                     </div>
                   ))}
                 </div>
-                <ScrollBar orientation="horizontal" color="red" />
+                <ScrollBar orientation="horizontal" />
               </ScrollArea>
             </Container>
           </div>
-          <div className="flex">
+          {/* Second Block */}
+          <div className="flex ">
             {/* LEft */}
-            <Container className=" justify-center flex-col flex px-4 items-center">
+            <div className=" justify-center bg-white rounded-lg flex-col flex px-4 items-center">
               <p className=" whitespace-nowrap capitalize  font-semibold">
                 {firstData?.weather[0].description}
               </p>
@@ -91,11 +93,11 @@ const page = async () => {
                   firstData?.dt_txt ?? ''
                 )}
               />
-            </Container>
+            </div>
             {/* RIGHT */}
-            <Container className="bg-yellow-300/80  px-6  ">
-              <ScrollArea>
-                <div className=" flex justify-between gap-4 items-center  px-6 ">
+            <Container className="bg-yellow-300/80  px-6 ml-2 max-sm:overflow-x-auto">
+              <ScrollArea className="flex-1">
+                <div className="px-6">
                   <WeatherDetails
                     airPressure={`${firstData?.main.pressure} hpa`}
                     visablity={meterToKilometer(firstData?.visibility ?? 10000)}

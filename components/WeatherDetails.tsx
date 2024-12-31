@@ -23,7 +23,7 @@ function WeatherDetails(props: WeatherDetailProps) {
     sunset = '18:48',
   } = props;
   return (
-    <>
+    <div className="flex justify-between ">
       <SingleWeatherDetails
         information="Visiblity"
         icon={<LuEye />}
@@ -54,7 +54,8 @@ function WeatherDetails(props: WeatherDetailProps) {
         icon={<LuSunset />}
         value={sunset}
       />
-    </>
+      {/* Item spearation */}
+    </div>
   );
 }
 

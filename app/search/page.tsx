@@ -51,10 +51,10 @@ const page = async ({
             <div className="space-y-4">
               <h2 className="flex gap-1 text-2xl items-end">
                 <p className="text-xl font-bold">
-                  {format(parseISO(firstData?.dt_txt ?? ''), 'EEEE')}
+                  {format(parseISO(firstData?.dt_txt ?? '12/31/2024'), 'EEEE')}
                 </p>
                 <p className="text-lg font-semibold">
-                  ({format(parseISO(firstData?.dt_txt ?? ''), 'dd.MM.yyyy')})
+                  ({format(parseISO(firstData?.dt_txt ?? '12/31/2024'), 'dd.MM.yyyy')})
                 </p>
               </h2>
               <Container className="px-6 items-center">

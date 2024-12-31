@@ -1,24 +1,22 @@
 'use client';
-import { CSSProperties, useState } from 'react';
+import { CSSProperties } from 'react';
 import ClipLoader from 'react-spinners/ClipLoader';
 
 const override: CSSProperties = {
-  display: 'block',
-  margin: '0 auto',
-  borderColor: 'red',
-  height: '100vh',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  margin: 'auto',
+  height: '50vh', // Vertically centers in the viewport
 };
 
-const Spinner = () => {
-  let [loading, setLoading] = useState(true);
-  let [color, setColor] = useState('#000');
+const Spinner = ({ loading = true }) => {
   return (
-    <div>
+    <div style={override}>
       <ClipLoader
-        color={color}
+        color={'#4A90E2'} // A soothing blue shade
         loading={loading}
-        cssOverride={override}
-        size={150}
+        size={50} // Increased size for better visibility
         aria-label="Loading Spinner"
         data-testid="loader"
       />

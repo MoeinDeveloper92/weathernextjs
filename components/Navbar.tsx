@@ -2,7 +2,16 @@ import React from 'react';
 import { MdWbSunny, MdMyLocation, MdOutlineLocationOn } from 'react-icons/md';
 import SearchBox from './SearchBox';
 import Link from 'next/link';
+import { fetchWeatherData } from '@/utils/fetchWeatherData';
 type Props = {};
+
+// function SugesstionBox({ showSuggestions: boolean }) {
+//   return (
+//     <ul className="mt-4 bg-white absolute border top-[44px] left-0 border-gray-400 rounded-md min-w-[200px] flex flex-col gap-1 px-2 py-2 ">
+//       <li className=" cursor-pointer p-1 rounded hover:bg-gray-200"></li>
+//     </ul>
+//   );
+// }
 
 function Navbar({}: Props) {
   return (
@@ -24,6 +33,7 @@ function Navbar({}: Props) {
           {/* Search bar */}
           <section>
             <SearchBox />
+            {/* <SugesstionBox /> */}
           </section>
         </div>
       </div>

@@ -1,22 +1,27 @@
 import React from 'react';
-import Navbar from '@/components/Navbar';
 import { fetchWeatherData } from '@/utils/fetchWeatherData';
+import { convertCelvinToCelcius } from '@/utils/temeratureConversion';
+import { convertWindSpeed } from '@/utils/convertWindSpeed';
+import Navbar from '@/components/Navbar';
+import format from 'date-fns/format';
 import parseISO from 'date-fns/parseISO';
-import { format, fromUnixTime } from 'date-fns';
 import Container from '@/components/Container';
-import {
-  convertCelvinToCelcius,
-  getDayOrNightIcon,
-} from '@/utils/temeratureConversion';
-import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
-import WeatherIcon from '@/components/WeatherIcon';
+import { ScrollArea } from '@radix-ui/react-scroll-area';
+import { ScrollBar } from '@/components/ui/scroll-area';
 import WeatherDetails from '@/components/WeatherDetails';
 import { meterToKilometer } from '@/utils/meterToKilometer';
-import { convertWindSpeed } from '@/utils/convertWindSpeed';
+import fromUnixTime from 'date-fns/fromUnixTime';
 import ForecastWeatherDetails from '@/components/ForecastWeatherDetails';
+import WeatherIcon from '@/components/WeatherIcon';
+import { getDayOrNightIcon } from '@/utils/temeratureConversion';
 
-const page = async () => {
-  const data = await fetchWeatherData('');
+const page = async ({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | undefined };
+}) => {
+  
+  const data = await fetchWeatherData(searchParams.query);
   const firstData = data?.list[0];
 
   const uniqueDates = [
@@ -72,7 +77,7 @@ const page = async () => {
                 </p>
               </div>
               {/* Items and weather icons */}
-              <ScrollArea>
+              <ScrollArea className="overflow-x-auto">
                 <div className="flex gap-2 ">
                   {data?.list.map((item, i) => (
                     <div

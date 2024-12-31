@@ -1,6 +1,7 @@
 import React from 'react';
 import { IoSearch } from 'react-icons/io5';
 import { cn } from '@/utils/cn';
+import Form from 'next/form';
 type Props = {
   // Maybe sometimes we need a conditional className, therfore we should create a prop structure lioke this
   className?: string;
@@ -9,19 +10,17 @@ type Props = {
   onSubmit: React.FormEventHandler<HTMLFormElement> | undefined;
 };
 
-function SearchBox(props: Props) {
+function SearchBox() {
   return (
-    <form
-      onSubmit={props.onSubmit}
+    <Form
+      action={'/search'}
       className={cn(
-        'relative flex items-center justify-center h-10 max-sm:h-8',
-        props.className
+        'relative flex items-center justify-center h-10 max-sm:h-8'
       )}
     >
       <input
-        value={props.value}
         type="text"
-        onChange={props.onChange}
+        name="query"
         placeholder="Search location..."
         className="px-4 py-2 w-[230px] max-sm:w-[150px] border border-gray-300 rounded-l-md focus:outline-none focus:border-blue-500 h-full"
       />
@@ -31,7 +30,7 @@ function SearchBox(props: Props) {
       >
         <IoSearch />
       </button>
-    </form>
+    </Form>
   );
 }
 

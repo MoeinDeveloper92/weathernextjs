@@ -16,7 +16,11 @@ import WeatherIcon from '@/components/WeatherIcon';
 import { getDayOrNightIcon } from '@/utils/temeratureConversion';
 import Link from 'next/link';
 
-const page = async ({ searchParams }: { searchParams: { query: string } }) => {
+const page = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ query: string }>;
+}) => {
   const { query } = await searchParams;
   try {
     const data = await fetchWeatherData(query);

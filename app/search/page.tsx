@@ -54,7 +54,12 @@ const page = async ({
                   {format(parseISO(firstData?.dt_txt ?? '12/31/2024'), 'EEEE')}
                 </p>
                 <p className="text-lg font-semibold">
-                  ({format(parseISO(firstData?.dt_txt ?? '12/31/2024'), 'dd.MM.yyyy')})
+                  (
+                  {format(
+                    parseISO(firstData?.dt_txt ?? '12/31/2024'),
+                    'dd.MM.yyyy'
+                  )}
+                  )
                 </p>
               </h2>
               <Container className="px-6 items-center">
@@ -163,14 +168,16 @@ const page = async ({
                 temp_min={d?.main.temp_min ?? 0}
                 airPressure={`${d?.main.pressure}hpa`}
                 humidity={`${d?.main.humidity}%`}
-                sunrise={format(
-                  fromUnixTime(data?.city.sunrise ?? 1702517657),
-                  'H:mm'
-                )}
-                sunset={format(
-                  fromUnixTime(data?.city.sunset ?? 1702517657),
-                  'H:mm'
-                )}
+                sunrise={
+                  data?.city?.sunrise
+                    ? format(fromUnixTime(data.city.sunrise), 'H:mm')
+                    : 'N/A'
+                } // Provide a fallback for invalid or missing data
+                sunset={
+                  data?.city?.sunset
+                    ? format(fromUnixTime(data.city.sunset), 'H:mm')
+                    : 'N/A'
+                }
                 visablity={`${meterToKilometer(d?.visibility ?? 10000)}`}
                 windSpeed={`${convertWindSpeed(d?.wind.speed ?? 1.64)}`}
               />
